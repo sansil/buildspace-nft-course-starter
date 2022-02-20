@@ -4,12 +4,12 @@ import twitterLogo from './assets/twitter-logo.svg';
 import { ethers } from "ethers";
 import myEpicNft from './utils/MyEpicNFT.json';
 
-const TWITTER_HANDLE = 'sansil';
+const TWITTER_HANDLE = 'sansildev';
 const TWITTER_LINK = `https://twitter.com/sansildev`;
-const OPENSEA_LINK = '';
+const OPENSEA_LINK = 'https://testnets.opensea.io/collection/hplifenft';
 
 
-const CONTRACT_ADDRESS = "0x48e7416Fb6dE8A7258ffE42988570987AA66afe8";
+const CONTRACT_ADDRESS = "0xe3Ce002516Db1895Deea283e4AeA37d144EA2D9B";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -155,7 +155,7 @@ const App = () => {
   // Render Methods
   const renderNotConnectedContainer = () => (
     <button onClick={connectWallet} className="cta-button connect-wallet-button">
-      Connect to Wallet
+      Connect Wallet
     </button>
   );
 
@@ -172,12 +172,12 @@ const App = () => {
     <div className="App">
       <div className="container">
         <div className="header-container">
-          <p className="header gradient-text">My NFT Collection</p>
+          <p className="header gradient-text">HP bar NFT collection</p>
           <p className="sub-text">
-            Each unique. Each beautiful. Discover your NFT today.
+            Discover your HP bar today.
           </p>
-          {currentAccount ? <p className="sub-text" style={{ 'textOverflow': 'ellipsis' }}>👛 {currentAccount}</p> : ''}
-          {currentAccount ? <p className="sub-text">🔥 {NFTsLeft} NFTs left</p> : ''}
+          {currentAccount ? <p className="sub-text" style={{ 'textOverflow': 'ellipsis', fontSize: '1rem' }}>👛 {currentAccount}</p> : <p className="sub-text" style={{ 'textOverflow': 'ellipsis', fontSize: '1rem', fontStyle: 'italic' }}>🌐 rinkeby network</p>}
+          {currentAccount ? <p className="sub-text">🔥 {NFTsLeft} HP bars left</p> : ''}
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
@@ -190,7 +190,7 @@ const App = () => {
         <div className="footer-container">
           <a
             className="footer-text"
-            href={TWITTER_LINK}
+            href={OPENSEA_LINK}
             target="_blank"
             rel="noreferrer"
           > 🌊 OpenSea</a>
