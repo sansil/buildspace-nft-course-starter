@@ -7,14 +7,13 @@ import myEpicNft from './utils/MyEpicNFT.json';
 const TWITTER_HANDLE = 'sansil';
 const TWITTER_LINK = `https://twitter.com/sansildev`;
 const OPENSEA_LINK = '';
-const TOTAL_MINT_COUNT = 50;
 
 
-const CONTRACT_ADDRESS = "0x1a1c51578fEC30DCd8a110Db3fe5067500181830";
+const CONTRACT_ADDRESS = "0x48e7416Fb6dE8A7258ffE42988570987AA66afe8";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
-
+  const [NFTsLeft, settotalNFTsLeft] = useState(0);
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
 
@@ -69,6 +68,24 @@ const App = () => {
     }
   }
 
+  const getNFTsLeft = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
+
+        const count = await connectedContract.nftsLeft();
+        console.log('nfts left: ', ethers.utils.formatUnits(count))
+        settotalNFTsLeft(ethers.utils.formatUnits(count, 'wei'));
+        return ethers.utils.formatUnits(count)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   // Setup our listener.
   const setupEventListener = async () => {
     // Most of this looks the same as our function askContractToMintNft
@@ -89,7 +106,6 @@ const App = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
-
         // THIS IS THE MAGIC SAUCE.
         // This will essentially "capture" our event when our contract throws it.
         // If you're familiar with webhooks, it's very similar to that!
@@ -126,7 +142,7 @@ const App = () => {
 
         console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
-
+        await getNFTsLeft()
 
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -145,6 +161,8 @@ const App = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    getNFTsLeft();
+    // settotalNFTsLeft(nfts);
   }, [])
 
   /*
@@ -158,6 +176,8 @@ const App = () => {
           <p className="sub-text">
             Each unique. Each beautiful. Discover your NFT today.
           </p>
+          {currentAccount ? <p className="sub-text" style={{ 'textOverflow': 'ellipsis' }}>👛 {currentAccount}</p> : ''}
+          {currentAccount ? <p className="sub-text">🔥 {NFTsLeft} NFTs left</p> : ''}
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
@@ -166,7 +186,14 @@ const App = () => {
             </button>
           )}
         </div>
+
         <div className="footer-container">
+          <a
+            className="footer-text"
+            href={TWITTER_LINK}
+            target="_blank"
+            rel="noreferrer"
+          > 🌊 OpenSea</a>
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
             className="footer-text"
@@ -176,7 +203,7 @@ const App = () => {
           >{`built by @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 //
