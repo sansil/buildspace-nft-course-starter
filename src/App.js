@@ -63,6 +63,7 @@ const App = () => {
       // Setup listener! This is for the case where a user comes to our site
       // and connected their wallet for the first time.
       setupEventListener()
+      getNFTsLeft();
     } catch (error) {
       console.log(error)
     }
@@ -185,6 +186,8 @@ const App = () => {
               Mint NFT
             </button>
           )}
+          <img src="/hpbarsvg.svg" className="hpbarimg" style={{ width: '15rem', display: 'block' }} alt="hpbar"></img>
+
         </div>
 
         <div className="footer-container">

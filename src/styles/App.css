@@ -28,6 +28,16 @@
   color: white;
 }
 
+.hpbarimg{
+  margin: auto;
+  margin-top: 4rem;
+}
+
+.hptext{
+  font-size: 1.5rem;
+  color: white;
+}
+
 .gradient-text {
   background: -webkit-linear-gradient(left, #60c657 30%, #35aee2 60%);
   background-clip: text;
